@@ -1,0 +1,43 @@
+# 工作流名称
+name: Sync-Images-to-DockerHub-Example
+# 工作流运行时显示名称
+run-name: ${{ github.actor }} is Sync Images to DockerHub.
+# 怎样触发工作流
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# 工作流程任务（通常含有一个或多个步骤）
+jobs:
+  syncimages:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repos
+      uses: actions/checkout@v3
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2.9.1
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2.2.0
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        logout: false
+    
+    # 使用shell命令批量同步所需的镜像到dockerHub中
+    - name: Use Skopeo Tools Sync Image to Docker Hub
+      run: |
+        #!/usr/bin/env bash
+        skopeo copy --all docker://k8s.gcr.io/kube-apiserver:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-apiserver:v1.27.4
+        skopeo copy --all docker://k8s.gcr.io/kube-controller-manager:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-controller-manager:v1.27.4
+        skopeo copy --all docker://k8s.gcr.io/kube-scheduler:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-scheduler:v1.27.4
+        skopeo copy --all docker://k8s.gcr.io/kube-proxy:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-proxy:v1.27.4
+        skopeo copy --all docker://k8s.gcr.io/pause:3.2 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/pause:3.2
+        skopeo copy --all docker://k8s.gcr.io/etcd:3.4.13-0 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/etcd:3.4.13-0
+        skopeo copy --all docker://k8s.gcr.io/coredns:1.7.0 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/coredns:1.7.0
