@@ -27,11 +27,12 @@ jobs:
         
     - name: Use Skopeo Tools Sync Image to Docker Hub
       run: |
-         skopeo copy --all docker://k8s.gcr.io/kube-apiserver:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-apiserver:v1.27.4
-         skopeo copy --all docker://k8s.gcr.io/kube-controller-manager:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-controller-manager:v1.27.4
-         skopeo copy --all docker://k8s.gcr.io/kube-scheduler:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-scheduler:v1.27.4
-         skopeo copy --all docker://k8s.gcr.io/kube-proxy:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-proxy:v1.27.4
-         skopeo copy --all docker://k8s.gcr.io/pause:3.2 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/pause:3.2
-         skopeo copy --all docker://k8s.gcr.io/etcd:3.4.13-0 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/etcd:3.4.13-0
-         skopeo copy --all docker://k8s.gcr.io/coredns:1.7.0 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/coredns:1.7.0
+         skopeo copy --all docker://registry.k8s.io/kube-apiserver:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-apiserver:v1.27.4
+         skopeo copy --all docker://registry.k8s.io/kube-controller-manager:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-controller-manager:v1.27.4
+         skopeo copy --all docker://registry.k8s.io/kube-scheduler:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-scheduler:v1.27.4
+         skopeo copy --all docker://registry.k8s.io/kube-proxy:v1.27.4 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/kube-proxy:v1.27.4
+         skopeo copy --all docker://registry.k8s.io/pause:3.2 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/pause:3.2
+         skopeo copy --all docker://registry.k8s.io/etcd:3.4.13-0 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/etcd:3.4.13-0
+         skopeo copy --all docker://registry.k8s.io/coredns:1.7.0 docker://registry.cn-hangzhou.aliyuncs.com/czh-image/coredns:1.7.0
+
       # 使用 skopeo 工具将镜像同步到阿里云个人仓库中，使用时请自行源和目标修改仓库名称和镜像名称
